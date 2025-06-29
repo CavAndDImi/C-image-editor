@@ -1,0 +1,51 @@
+Scopul programului este acela de a actiona ca un editor de imagine.
+
+Acesta poate sa indeplineasca anumite actiuni predefinite cum ar fi:
+    - Incarcarea unei imagini (prin functia LOAD)
+    - Selectarea unui camp de pixeli specifici (prin functia SELECT)
+    - Rotirea acelor pixeli sau a acelei imagini (prin functia ROTATE)
+    - Trunchierea imaginii astfel incat sa ramana doar pixelii selectati (prin functia CROP)
+    - Aplicarea a diverse filtre de imagine (prin functia APPLY)
+    - Egalizarea unei imagini (prin functia EQUALIZE)
+    - Afisarea histogramei unei imagini (prin functia HISTOGRAM)
+    - Salvarea imaginii modificate (prin functia SAVE)
+    - Incheierea procesului de editare (prin functia EXIT)
+
+Load <adresa>:
+    - Primeste un singur parametru care este adresa imaginii selectate pt a fi editata
+    - Se asigura mai intai ca matricile in care exista posibilitatea sa se stocheze matricea au memoria eliberata
+    - Verifica in primul rand tipul de imagine (P2/P3/P5/P6)
+    - In cazul in care este o imagine de tip gray-scale, imaginea se va stoca in matricea mat, iar daca este color in mat_load
+    - In cazul in care este o imagine stocata in format binar, fisierul se va redeschide corespunzator (prin functia fopen(adr, "rb"))
+    - Se citeste lungimea, inaltimea, valoarea maxima a pixelilor, iar apoi valorile pixelilor in matricea corespunzatoare
+
+SELECT <x0> <y0> <x1> <y1>:
+    - Primeste patru parametri, acestia reprezinta pixelii care se afla in colturile selectiei
+    - Aceasta selectie este memorata prin intermediul variabilelor x_0, y_0, x_1, y_1 care sunt initializate la fiecare load cu 
+    x_0 = 0, x_1 = lungimea, y_0 = 0, y_1 = inaltimea, astfel incat operatia sa se realizeze pe toate imaginea fara vreo selectie facuta
+
+ROTATE <unghi>:
+    - Primeste un parametru, unghiul de rotatie a selectiei facute. Acesta trebuie sa fie multiplu de 90 cuprins in [-360, 360] 
+    - Roteste selectia
+
+CROP:
+    - Inlocuieste valorile inaltimii si lungimi cu cele noi, apoi realoca matricea asociata imaginii
+
+APPLY <comanda>:
+    - Primeste un parametru care trebuie sa fie ori EDGE, SHARPEN, BLUR sau GAUSSIAN_BLUR
+    - Aplica pe pixelii selectati filtrul ales (se poate aplica doar pe imaginile color)
+
+EQUALIZE:
+    - Face egalizarea pe imagine
+    - Se poate aplica doar pe imaginile gray-scale
+
+HISTOGRAM <max_stelute> <bins>:
+    - Afiseaza histograma imaginii cu un maxim de "max_stelute" stelute impartite in "bins" bin-uri
+    - Se poate aplica doar pe imaginile gray-scale
+
+SAVE <adresa> |ascii|:
+    - Salveaza imaginea stocata in matricea folosita intr-un fisier la adresa oferita
+    - Parametrul "ascii" este optional, in cazul in care apare atunci imaginea este salvata in format ascii, altfel in format binar
+
+EXIT:
+    - Inchide programul
